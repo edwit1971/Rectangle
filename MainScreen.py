@@ -31,6 +31,7 @@ class Class_Screen1(MDFloatLayout):
     def __init__(self, **kwargs):
         super(Class_Screen1, self).__init__(**kwargs)
         ###
+        self.Screen_Draw = MDFloatLayout()
         self.Drawing = Draw_Stuff()
         ###
         self.BRectangle = MDFillRoundFlatButton()
@@ -64,6 +65,8 @@ class Class_Screen1(MDFloatLayout):
             min = LW
         LW = int(min * 0.75)
         LH = int(min * 0.75)
+        self.Screen_Draw.width  = LW
+        self.Screen_Draw.height = LH
         ##############################
         self.Xc = int(self.width  * 0.5)
         self.Yc = int(self.height * 0.5)
@@ -71,6 +74,11 @@ class Class_Screen1(MDFloatLayout):
         self.Xf = self.Xo + LW
         self.Yo = self.Yc - int(LH * 0.5)
         self.Yf = self.Yo + LH
+        ##############################
+        self.Screen_Draw.x = self.Xo
+        self.Screen_Draw.y = self.Yo
+        if(self.Screen_Draw.parent == None):
+            self.add_widget(self.Screen_Draw)
         ##############################
         LHeight = self.Yf - self.Yo
         LHeight = int(LHeight / 3)
@@ -135,7 +143,7 @@ class Class_Screen1(MDFloatLayout):
         self.To = time.time()
         self.Clear_Drawing_Window()
         self.Draw_Frame()
-        self.Drawing.Draw_Rectangles(pScreen = self, \
+        self.Drawing.Draw_Rectangles(pScreen = self.Screen_Draw, \
                              pXo = self.Xo, \
                              pXf = self.Xf, \
                              pYo = self.Yo, \
@@ -144,7 +152,7 @@ class Class_Screen1(MDFloatLayout):
                              pG  = 1, \
                              pB  = 0, \
                              pOffset = 0)
-        self.Drawing.Draw_Rectangles(pScreen = self, \
+        self.Drawing.Draw_Rectangles(pScreen = self.Screen_Draw, \
                              pXo = self.Xo, \
                              pXf = self.Xf, \
                              pYo = self.Yo, \
@@ -153,7 +161,7 @@ class Class_Screen1(MDFloatLayout):
                              pG  = 0, \
                              pB  = 0, \
                              pOffset = 1)
-        self.Drawing.Draw_Rectangles(pScreen = self, \
+        self.Drawing.Draw_Rectangles(pScreen = self.Screen_Draw, \
                              pXo = self.Xo, \
                              pXf = self.Xf, \
                              pYo = self.Yo, \
@@ -165,7 +173,14 @@ class Class_Screen1(MDFloatLayout):
         if(self.BStop.parent == None):
             self.add_widget(self.BStop)
         return
-    
+
+    #################################################
+    def Clear_Drawing_Window(self):
+        self.Drawing.Clear_Lines()
+        self.Screen_Draw.clear_widgets()
+        self.Screen_Draw.canvas.clear()
+        return
+
     #################################################
     def Press_STOP_Button(self, instance):
         self.Tf = time.time()
@@ -197,10 +212,10 @@ class Class_Screen1(MDFloatLayout):
     #################################################
     def Draw_Frame(self):
         Line_Width = 3
-        self.Drawing.Draw_Line(self, self.Xo, self.Yo, self.Xo, self.Yf, 0, 0.39, 0.49, Line_Width)
-        self.Drawing.Draw_Line(self, self.Xo, self.Yf, self.Xf, self.Yf, 0, 0.39, 0.49, Line_Width)
-        self.Drawing.Draw_Line(self, self.Xf, self.Yo, self.Xf, self.Yf, 0, 0.39, 0.49, Line_Width)
-        self.Drawing.Draw_Line(self, self.Xo, self.Yo, self.Xf, self.Yo, 0, 0.39, 0.49, Line_Width)
+        self.Drawing.Draw_Line(pScreen=self.Screen_Draw, pX1=self.Xo, pY1=self.Yo, pX2=self.Xo, pY2=self.Yf, pR=0, pG=0.39, pB=0.49, pW=Line_Width)
+        self.Drawing.Draw_Line(pScreen=self.Screen_Draw, pX1=self.Xo, pY1=self.Yf, pX2=self.Xf, pY2=self.Yf, pR=0, pG=0.39, pB=0.49, pW=Line_Width)
+        self.Drawing.Draw_Line(pScreen=self.Screen_Draw, pX1=self.Xf, pY1=self.Yo, pX2=self.Xf, pY2=self.Yf, pR=0, pG=0.39, pB=0.49, pW=Line_Width)
+        self.Drawing.Draw_Line(pScreen=self.Screen_Draw, pX1=self.Xo, pY1=self.Yo, pX2=self.Xf, pY2=self.Yo, pR=0, pG=0.39, pB=0.49, pW=Line_Width)
         return
 
     #################################################
@@ -211,11 +226,6 @@ class Class_Screen1(MDFloatLayout):
         self.BStop.unbind(on_release      = self.Press_STOP_Button)
         return
 
-    #################################################
-    def Clear_Drawing_Window(self):
-        self.Drawing.Clear_Lines()
-        return
-    
     #################################################
     def Clear_Screen(self):
         self.Unbind_All()
