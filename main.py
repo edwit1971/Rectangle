@@ -7,23 +7,24 @@
 # Created :   July 2020 
 #############################################################
 
-
 from kivymd.app import MDApp
-from MainScreen import Main_Screen
+from MainScreen import Class_Screen1
 
 ##############################################################
 ##############################################################
+
 class LayoutsApp(MDApp):
 
+    #################################################
     def __init__(self, **kwargs):
         super(LayoutsApp, self).__init__(**kwargs)
-        self.AppStart = Main_Screen()
+        self.cs1 = Class_Screen1()
         return
 
     def build(self):
         LayoutsApp.title = 'Drawing App'
-        self.AppStart.Initialize()
-        return self.AppStart
+        self.cs1.Initialize()
+        return self.cs1
 
 ##############################################################
 ##############################################################

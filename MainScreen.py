@@ -1,8 +1,11 @@
 #############################################################
 # File Name : MainScreen.py
 #
-#             Screen_Intro Class
-#             this is the Introduction Screen
+#   Class_Screen1 
+#   Displays a Rectangle centered in the screen and when you
+#   hit the Rectangles Button a bunch of lines is drawn on
+#   the screen and a STOP Button appears and you hit it
+#   immediately and you will see how long it took.
 #
 # Created :   July 2020 
 #
@@ -21,11 +24,12 @@ from kivymd.uix.floatlayout import MDFloatLayout
 
 ##############################################################
 ##############################################################
-class Main_Screen(MDFloatLayout):
+
+class Class_Screen1(MDFloatLayout):
     
     #################################################
     def __init__(self, **kwargs):
-        super(Main_Screen, self).__init__(**kwargs)
+        super(Class_Screen1, self).__init__(**kwargs)
         ###
         self.Drawing = Draw_Stuff()
         ###
@@ -86,6 +90,8 @@ class Main_Screen(MDFloatLayout):
         self.BStop.height = self.BRectangle.height
         self.BStop.x      = self.BRectangle.x
         self.BStop.y      = self.BRectangle.y - self.BStop.height - 2
+        if(self.BStop.parent == None):
+            self.add_widget(self.BStop)
         ##############################
         self.BClear1.size_hint_y  = None
         self.BClear1.text   = 'Clear Drawing'
@@ -108,14 +114,14 @@ class Main_Screen(MDFloatLayout):
         self.TFDisplay.width  = int((self.width - self.Xf) * 0.9)
         self.TFDisplay.x      = self.Xf + int(self.TFDisplay.width * 0.05)
         self.TFDisplay.y      = self.Yo
-        self.TFDisplay.multiline         = True
-        self.TFDisplay.readonly          = True
+        self.TFDisplay.text   = self.StrTime
+        self.TFDisplay.multiline = True
+        self.TFDisplay.readonly  = True
+        self.TFDisplay.hint_text = 'Time (sec)'
         self.TFDisplay.line_color_normal = (0, 0, 0, 1)
-        self.TFDisplay.hint_text         = 'Time (sec)'
         self.TFDisplay.current_hint_text_color = (0, 0, 0, 1)
         if(self.TFDisplay.parent == None):
             self.add_widget(self.TFDisplay)
-        self.TFDisplay.text = self.StrTime
         ##############################
         self.BRectangle.bind(on_release = self.Press_Rectangle_Button)
         self.BClear1.bind(on_release    = self.Press_Clear1_Button)
@@ -220,5 +226,4 @@ class Main_Screen(MDFloatLayout):
 
 ##############################################################
 ##############################################################
-
 
