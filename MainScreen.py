@@ -144,32 +144,32 @@ class Class_Screen1(MDFloatLayout):
         self.Clear_Drawing_Window()
         self.Draw_Frame()
         self.Drawing.Draw_Rectangles(pScreen = self.Screen_Draw, \
-                             pXo = self.Xo, \
-                             pXf = self.Xf, \
-                             pYo = self.Yo, \
-                             pYf = self.Yf, \
-                             pR  = 1, \
-                             pG  = 1, \
-                             pB  = 0, \
-                             pOffset = 0)
+                                     pXo = self.Xo, \
+                                     pXf = self.Xf, \
+                                     pYo = self.Yo, \
+                                     pYf = self.Yf, \
+                                     pR  = 1, \
+                                     pG  = 1, \
+                                     pB  = 0, \
+                                     pOffset = 0)
         self.Drawing.Draw_Rectangles(pScreen = self.Screen_Draw, \
-                             pXo = self.Xo, \
-                             pXf = self.Xf, \
-                             pYo = self.Yo, \
-                             pYf = self.Yf, \
-                             pR  = 1, \
-                             pG  = 0, \
-                             pB  = 0, \
-                             pOffset = 1)
+                                     pXo = self.Xo, \
+                                     pXf = self.Xf, \
+                                     pYo = self.Yo, \
+                                     pYf = self.Yf, \
+                                     pR  = 1, \
+                                     pG  = 0, \
+                                     pB  = 0, \
+                                     pOffset = 1)
         self.Drawing.Draw_Rectangles(pScreen = self.Screen_Draw, \
-                             pXo = self.Xo, \
-                             pXf = self.Xf, \
-                             pYo = self.Yo, \
-                             pYf = self.Yf, \
-                             pR  = 0, \
-                             pG  = 1, \
-                             pB  = 1, \
-                             pOffset = 2)
+                                     pXo = self.Xo, \
+                                     pXf = self.Xf, \
+                                     pYo = self.Yo, \
+                                     pYf = self.Yf, \
+                                     pR  = 0, \
+                                     pG  = 1, \
+                                     pB  = 1, \
+                                     pOffset = 2)
         if(self.BStop.parent == None):
             self.add_widget(self.BStop)
         return

@@ -36,6 +36,7 @@ class Draw_Stuff():
         if(pScreen is not None):
             pScreen.canvas.before
             pScreen.canvas.add(self.IG_Line)
+            pScreen.canvas.ask_update()
         return
 
     #################################################
@@ -43,7 +44,6 @@ class Draw_Stuff():
         for x in range(pXo, pXf, 6):
             x3 = x + pOffset
             self.Draw_Line(pScreen, x3, pYo, x3, pYf, pR, pG, pB, 2)
-            pScreen.canvas.ask_update()
         return
 
 ##############################################################
