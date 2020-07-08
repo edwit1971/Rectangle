@@ -17,6 +17,7 @@ from DrawStuff import Draw_Stuff
 
 from kivy.core.window import Window
 
+from kivymd.uix.spinner     import MDSpinner
 from kivymd.uix.button      import MDFillRoundFlatButton
 from kivymd.uix.textfield   import MDTextField
 from kivymd.uix.floatlayout import MDFloatLayout
@@ -39,6 +40,7 @@ class Class_Screen1(MDFloatLayout):
         self.BClear2    = MDFillRoundFlatButton()
         self.BStop      = MDFillRoundFlatButton()
         self.TFDisplay  = MDTextField()
+        self.Spinner    = MDSpinner(active = False)
         ###
         self.LH = 0
         self.LW = 0
@@ -80,7 +82,15 @@ class Class_Screen1(MDFloatLayout):
         ##############################
         self.Create_ScreenDraw_Widget()
         self.Drawing.Draw_Frame(pScreen = self.Screen_Draw[0], pXo=self.Xo, pXf=self.Xf, pYo=self.Yo, pYf=self.Yf)
-        ##############################
+        #############################################
+        self.Spinner.size_hint = (None, None)
+        self.Spinner.width     = int(self.LW * 0.1)
+        self.Spinner.height    = self.Spinner.width
+        self.Spinner.x         = self.Xc - int(self.Spinner.width * 0.5)
+        self.Spinner.y         = self.Yc - int(self.Spinner.height * 0.5)
+        if(self.Spinner.parent == None):
+            self.add_widget(self.Spinner)
+        #############################################
         self.BRectangle.size_hint_y  = None
         self.BRectangle.text   = 'Many Lines'
         self.BRectangle.height = int(LHeight * 0.3)
@@ -227,6 +237,10 @@ class Class_Screen1(MDFloatLayout):
         self.Drawing.Clear_Frame()
         self.Drawing.Clear_Lines()
         self.Delete_ScreenDraw_Widget()
+        if(self.Spinner.active):
+            self.Spinner.active = False
+        else:
+            self.Spinner.active = True
         return
 
     #################################################
@@ -235,6 +249,10 @@ class Class_Screen1(MDFloatLayout):
         self.Clear_Drawing_Window()
         self.clear_widgets()
         self.canvas.clear()
+        if(self.Spinner.active):
+            self.Spinner.active = False
+        else:
+            self.Spinner.active = True
         return
 
 ##############################################################
