@@ -67,15 +67,15 @@ class Class_Screen1(MDFloatLayout):
             min = self.LH
         else:
             min = self.LW
-        self.LW = int(min * 0.75)
-        self.LH = int(min * 0.75)
+        self.LW = int(min * 0.5)
+        self.LH = int(min * 0.5)
         ##############################
         self.Xc = int(self.width  * 0.5)
         self.Yc = int(self.height * 0.5)
         self.Xo = self.Xc - int(self.LW * 0.5)
         self.Xf = self.Xo + self.LW
-        self.Yo = self.Yc - int(self.LH * 0.5)
-        self.Yf = self.Yo + self.LH
+        self.Yo = self.Yc - int(self.height * 0.5)
+        self.Yf = self.Yo + self.height
         ##############################
         LHeight = self.Yf - self.Yo
         LHeight = int(LHeight / 3)
@@ -91,26 +91,27 @@ class Class_Screen1(MDFloatLayout):
         if(self.Spinner.parent == None):
             self.add_widget(self.Spinner)
         #############################################
+        Xc1 = int(self.Xo * 0.5)
         self.BRectangle.size_hint_y  = None
-        self.BRectangle.text   = 'Many Lines'
+        self.BRectangle.text   = 'Now Press Me'
         self.BRectangle.height = int(LHeight * 0.3)
-        self.BRectangle.x      = 10
+        self.BRectangle.x      = Xc1 - int(self.BRectangle.width)
         self.BRectangle.y      = self.Yf - int(LHeight * 0.5)
-        if(self.BRectangle.parent == None):
-            self.add_widget(self.BRectangle)
+        if(self.BRectangle.parent != None):
+            self.remove_widget(self.BRectangle)
         ##############################
         self.BStop.size_hint_y  = None
-        self.BStop.text   = 'Stop'
+        self.BStop.text   = 'Timer'
         self.BStop.height = self.BRectangle.height
-        self.BStop.x      = self.BRectangle.x
+        self.BStop.x      = Xc1 - int(self.BStop.width)
         self.BStop.y      = self.BRectangle.y - self.BStop.height - 2
-        if(self.BStop.parent == None):
-            self.add_widget(self.BStop)
+        if(self.BStop.parent != None):
+            self.remove_widget(self.BStop)
         ##############################
         self.BClear1.size_hint_y  = None
-        self.BClear1.text   = 'Clear Drawing'
+        self.BClear1.text   = 'Press Me'
         self.BClear1.height = self.BRectangle.height
-        self.BClear1.x      = self.BRectangle.x
+        self.BClear1.x      = Xc1 - int(self.BClear1.width)
         self.BClear1.y      = self.BRectangle.y - LHeight
         if(self.BClear1.parent == None):
             self.add_widget(self.BClear1)
@@ -118,20 +119,24 @@ class Class_Screen1(MDFloatLayout):
         self.BClear2.size_hint_y  = None
         self.BClear2.text   = 'Clear Screen'
         self.BClear2.height = self.BRectangle.height
-        self.BClear2.x      = self.BRectangle.x
+        self.BClear2.x      = Xc1 - int(self.BClear2.width)
         self.BClear2.y      = self.BClear1.y - LHeight
         if(self.BClear2.parent == None):
             self.add_widget(self.BClear2)
         ##############################
+        Xc1 = self.width - self.Xf
+        Xc1 = self.Xf + int(Xc1 * 0.5)
         self.TFDisplay.size_hint = (None, None)
         self.TFDisplay.height = self.Yf - self.Yo
         self.TFDisplay.width  = int((self.width - self.Xf) * 0.9)
-        self.TFDisplay.x      = self.Xf + int(self.TFDisplay.width * 0.05)
-        self.TFDisplay.y      = self.Yo
+        self.TFDisplay.x      = Xc1 - int(self.TFDisplay.width * 0.5)
+        self.TFDisplay.y      = self.Yo + 20
         self.TFDisplay.text   = self.StrTime
         self.TFDisplay.multiline = True
         self.TFDisplay.readonly  = True
         self.TFDisplay.hint_text = 'Time (sec)'
+        self.TFDisplay.helper_text = 'Press TIMER when you see it'
+        self.TFDisplay.helper_text_mode = 'persistent'
         self.TFDisplay.line_color_normal = (0, 0, 0, 1)
         self.TFDisplay.current_hint_text_color = (0, 0, 0, 1)
         if(self.TFDisplay.parent == None):
@@ -191,8 +196,12 @@ class Class_Screen1(MDFloatLayout):
                                     pG  = 1, \
                                     pB  = 1, \
                                     pOffset = 2)
+        if(self.BRectangle.parent != None):
+            self.remove_widget(self.BRectangle)
         if(self.BStop.parent == None):
             self.add_widget(self.BStop)
+        if(self.BClear1.parent == None):
+            self.add_widget(self.BClear1)
         return
 
     #################################################
@@ -211,8 +220,12 @@ class Class_Screen1(MDFloatLayout):
         self.Clear_Drawing_Window()
         self.Create_ScreenDraw_Widget()
         self.Drawing.Draw_Frame(pScreen = self.Screen_Draw[0], pXo=self.Xo, pXf=self.Xf, pYo=self.Yo, pYf=self.Yf)
+        if(self.BRectangle.parent == None):
+            self.add_widget(self.BRectangle)
         if(self.BStop.parent != None):
             self.remove_widget(self.BStop)
+        if(self.BClear1.parent != None):
+            self.remove_widget(self.BClear1)
         return
 
     #################################################
@@ -220,8 +233,12 @@ class Class_Screen1(MDFloatLayout):
         self.StrTime = ''
         self.Clear_Screen()
         self.Initialize()
+        if(self.BRectangle.parent != None):
+            self.remove_widget(self.BRectangle)
         if(self.BStop.parent != None):
             self.remove_widget(self.BStop)
+        if(self.BClear1.parent == None):
+            self.add_widget(self.BClear1)
         return
 
     #################################################
