@@ -39,7 +39,6 @@ class Draw_Stuff():
         self.IG_Line.add(Color(rgba = (pR, pG, pB, pOp)))
         self.IG_Line.add(Line(points = [pX1, pY1, pX2, pY2], width = pW))
         if(pScreen is not None):
-            pScreen.canvas.before
             pScreen.canvas.add(self.IG_Line)
             pScreen.canvas.ask_update()
         return

@@ -31,7 +31,7 @@ class Class_Screen1(MDFloatLayout):
     def __init__(self, **kwargs):
         super(Class_Screen1, self).__init__(**kwargs)
         ###
-        self.Screen_Draw = MDFloatLayout()
+        self.Screen_Draw = []
         self.Drawing = Draw_Stuff()
         ###
         self.BRectangle = MDFillRoundFlatButton()
@@ -40,6 +40,8 @@ class Class_Screen1(MDFloatLayout):
         self.BStop      = MDFillRoundFlatButton()
         self.TFDisplay  = MDTextField()
         ###
+        self.LH = 0
+        self.LW = 0
         self.Xo = 0
         self.Xf = 0
         self.Xc = 0
@@ -57,36 +59,30 @@ class Class_Screen1(MDFloatLayout):
         ##############################
         # Universal Screen Dimensions
         self.size = Window.size
-        LW = self.width
-        LH = self.height
-        if(LW >= LH):
-            min = LH
+        self.LW = self.width
+        self.LH = self.height
+        if(self.LW >= self.LH):
+            min = self.LH
         else:
-            min = LW
-        LW = int(min * 0.75)
-        LH = int(min * 0.75)
-        self.Screen_Draw.width  = LW
-        self.Screen_Draw.height = LH
+            min = self.LW
+        self.LW = int(min * 0.75)
+        self.LH = int(min * 0.75)
         ##############################
         self.Xc = int(self.width  * 0.5)
         self.Yc = int(self.height * 0.5)
-        self.Xo = self.Xc - int(LW * 0.5)
-        self.Xf = self.Xo + LW
-        self.Yo = self.Yc - int(LH * 0.5)
-        self.Yf = self.Yo + LH
-        ##############################
-        self.Screen_Draw.x = self.Xo
-        self.Screen_Draw.y = self.Yo
-        if(self.Screen_Draw.parent == None):
-            self.add_widget(self.Screen_Draw)
+        self.Xo = self.Xc - int(self.LW * 0.5)
+        self.Xf = self.Xo + self.LW
+        self.Yo = self.Yc - int(self.LH * 0.5)
+        self.Yf = self.Yo + self.LH
         ##############################
         LHeight = self.Yf - self.Yo
         LHeight = int(LHeight / 3)
         ##############################
-        self.Drawing.Draw_Frame(pScreen = self.Screen_Draw, pXo=self.Xo, pXf=self.Xf, pYo=self.Yo, pYf=self.Yf)
+        self.Create_ScreenDraw_Widget()
+        self.Drawing.Draw_Frame(pScreen = self.Screen_Draw[0], pXo=self.Xo, pXf=self.Xf, pYo=self.Yo, pYf=self.Yf)
         ##############################
         self.BRectangle.size_hint_y  = None
-        self.BRectangle.text   = 'Rectangles'
+        self.BRectangle.text   = 'Many Lines'
         self.BRectangle.height = int(LHeight * 0.3)
         self.BRectangle.x      = 10
         self.BRectangle.y      = self.Yf - int(LHeight * 0.5)
@@ -131,17 +127,34 @@ class Class_Screen1(MDFloatLayout):
         if(self.TFDisplay.parent == None):
             self.add_widget(self.TFDisplay)
         ##############################
-        self.BRectangle.bind(on_release = self.Press_Rectangle_Button)
+        self.BRectangle.bind(on_release = self.Press_ManyLines_Button)
         self.BClear1.bind(on_release    = self.Press_Clear1_Button)
         self.BClear2.bind(on_release    = self.Press_Clear2_Button)
         self.BStop.bind(on_release      = self.Press_STOP_Button)
         ##############################
         return
+    
+    #################################################
+    def Create_ScreenDraw_Widget(self):
+        max = len(self.Screen_Draw)
+        if(max < 1):
+            self.Screen_Draw.append(MDFloatLayout(width=self.LW, height=self.LH, x=self.Xc, y=5))
+            if(self.Screen_Draw[0].parent == None):
+                self.add_widget(self.Screen_Draw[0])
+        return
+    
+    #################################################
+    def Delete_ScreenDraw_Widget(self):
+        max = len(self.Screen_Draw)
+        if(max > 0):
+            self.Screen_Draw.pop(0)
+        return
 
     #################################################
-    def Press_Rectangle_Button(self, instance):
+    def Press_ManyLines_Button(self, instance):
         self.To = time.time()
-        self.Drawing.Draw_ManyLines(pScreen = self.Screen_Draw, \
+        self.Create_ScreenDraw_Widget()
+        self.Drawing.Draw_ManyLines(pScreen = self.Screen_Draw[0], \
                                     pXo = self.Xo, \
                                     pXf = self.Xf, \
                                     pYo = self.Yo, \
@@ -150,7 +163,7 @@ class Class_Screen1(MDFloatLayout):
                                     pG  = 1, \
                                     pB  = 0, \
                                     pOffset = 0)
-        self.Drawing.Draw_ManyLines(pScreen = self.Screen_Draw, \
+        self.Drawing.Draw_ManyLines(pScreen = self.Screen_Draw[0], \
                                     pXo = self.Xo, \
                                     pXf = self.Xf, \
                                     pYo = self.Yo, \
@@ -159,7 +172,7 @@ class Class_Screen1(MDFloatLayout):
                                     pG  = 0, \
                                     pB  = 0, \
                                     pOffset = 1)
-        self.Drawing.Draw_ManyLines(pScreen = self.Screen_Draw, \
+        self.Drawing.Draw_ManyLines(pScreen = self.Screen_Draw[0], \
                                     pXo = self.Xo, \
                                     pXf = self.Xf, \
                                     pYo = self.Yo, \
@@ -186,7 +199,8 @@ class Class_Screen1(MDFloatLayout):
     #################################################
     def Press_Clear1_Button(self, instance):
         self.Clear_Drawing_Window()
-        self.Drawing.Draw_Frame(pScreen = self.Screen_Draw, pXo=self.Xo, pXf=self.Xf, pYo=self.Yo, pYf=self.Yf)
+        self.Create_ScreenDraw_Widget()
+        self.Drawing.Draw_Frame(pScreen = self.Screen_Draw[0], pXo=self.Xo, pXf=self.Xf, pYo=self.Yo, pYf=self.Yf)
         if(self.BStop.parent != None):
             self.remove_widget(self.BStop)
         return
@@ -202,7 +216,7 @@ class Class_Screen1(MDFloatLayout):
 
     #################################################
     def Unbind_All(self):
-        self.BRectangle.unbind(on_release = self.Press_Rectangle_Button)
+        self.BRectangle.unbind(on_release = self.Press_ManyLines_Button)
         self.BClear1.unbind(on_release    = self.Press_Clear1_Button)
         self.BClear2.unbind(on_release    = self.Press_Clear2_Button)
         self.BStop.unbind(on_release      = self.Press_STOP_Button)
@@ -212,8 +226,7 @@ class Class_Screen1(MDFloatLayout):
     def Clear_Drawing_Window(self):
         self.Drawing.Clear_Frame()
         self.Drawing.Clear_Lines()
-        self.Screen_Draw.clear_widgets()
-        self.Screen_Draw.canvas.clear()
+        self.Delete_ScreenDraw_Widget()
         return
 
     #################################################
