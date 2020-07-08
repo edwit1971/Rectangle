@@ -2,12 +2,31 @@
 # File Name : MainScreen.py
 #
 #   Class_Screen1 
-#   Displays a Rectangle centered in the screen and when you
-#   hit the Rectangles Button a bunch of lines is drawn on
-#   the screen and a STOP Button appears and you hit it
-#   immediately and you will see how long it took.
+#
+#   Start out by hitting the PRESS ME Button when the App
+#   starts.  This will clear the Lines Drawn.
+#
+#   Then a new Button appears that says NOW PRESS ME and
+#   when you hit it lines will be drawn on the screen.
+#
+#   a TIMER Button will appear.  Press it immediatly EVERY
+#   time it appears to be consistent.
+#
+#   You should notice that as you keep pressing
+#   PRESS ME and then NOW PRESS ME and then
+#   PRESS ME and then NOW PRESS ME repeatedly the
+#   time gets bigger and bigger meaning the program is
+#   SLOWING DOWN!!!!!
+#
+#   But the NOW PRESS ME Button clears all the lines from
+#   the CANVAS instruction list and clears the canvas. So
+#   why is the app getting SLOWER AND SLOWER??????????
+#
 #
 # Created :   July 2020 
+#
+# Ed Witkowski III
+# EdWit1971@gmail.com
 #
 #############################################################
 
@@ -93,7 +112,7 @@ class Class_Screen1(MDFloatLayout):
         #############################################
         Xc1 = int(self.Xo * 0.5)
         self.BRectangle.size_hint_y  = None
-        self.BRectangle.text   = 'Now Press Me'
+        self.BRectangle.text   = 'NOW PRESS ME'
         self.BRectangle.height = int(LHeight * 0.3)
         self.BRectangle.x      = Xc1 - int(self.BRectangle.width)
         self.BRectangle.y      = self.Yf - int(LHeight * 0.5)
@@ -101,7 +120,7 @@ class Class_Screen1(MDFloatLayout):
             self.remove_widget(self.BRectangle)
         ##############################
         self.BStop.size_hint_y  = None
-        self.BStop.text   = 'Timer'
+        self.BStop.text   = 'TIMER'
         self.BStop.height = self.BRectangle.height
         self.BStop.x      = Xc1 - int(self.BStop.width)
         self.BStop.y      = self.BRectangle.y - self.BStop.height - 2
@@ -109,7 +128,7 @@ class Class_Screen1(MDFloatLayout):
             self.remove_widget(self.BStop)
         ##############################
         self.BClear1.size_hint_y  = None
-        self.BClear1.text   = 'Press Me'
+        self.BClear1.text   = 'PRESS ME'
         self.BClear1.height = self.BRectangle.height
         self.BClear1.x      = Xc1 - int(self.BClear1.width)
         self.BClear1.y      = self.BRectangle.y - LHeight
