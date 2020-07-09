@@ -51,7 +51,6 @@ class Class_Screen1(MDFloatLayout):
     def __init__(self, **kwargs):
         super(Class_Screen1, self).__init__(**kwargs)
         ###
-        self.Screen_Draw = []
         self.Drawing = Draw_Stuff()
         ###
         self.BRectangle = MDFillRoundFlatButton()
@@ -99,9 +98,10 @@ class Class_Screen1(MDFloatLayout):
         LHeight = self.Yf - self.Yo
         LHeight = int(LHeight / 3)
         ##############################
-        self.Create_ScreenDraw_Widget()
-        self.Drawing.Draw_Frame(pScreen = self.Screen_Draw[0], pXo=self.Xo, pXf=self.Xf, pYo=self.Yo, pYf=self.Yf)
-        #############################################
+        self.Clear_Drawing_Window()
+        self.Drawing.Draw_Frame(pScreen = self, pXo=self.Xo, pXf=self.Xf, pYo=self.Yo, pYf=self.Yf)
+        self.Drawing.Show_Instructions(pScreen = self)
+        ##############################
         self.Spinner.size_hint = (None, None)
         self.Spinner.width     = int(self.LW * 0.1)
         self.Spinner.height    = self.Spinner.width
@@ -109,7 +109,7 @@ class Class_Screen1(MDFloatLayout):
         self.Spinner.y         = self.Yc - int(self.Spinner.height * 0.5)
         if(self.Spinner.parent == None):
             self.add_widget(self.Spinner)
-        #############################################
+        ##############################
         Xc1 = int(self.Xo * 0.5)
         self.BRectangle.size_hint_y  = None
         self.BRectangle.text   = 'NOW PRESS ME'
@@ -167,46 +167,12 @@ class Class_Screen1(MDFloatLayout):
         self.BStop.bind(on_release      = self.Press_STOP_Button)
         ##############################
         return
-    
-    #################################################
-    def Create_ScreenDraw_Widget(self):
-        max = len(self.Screen_Draw)
-        if(max < 1):
-            self.Screen_Draw.append(MDFloatLayout(width=self.LW, height=self.LH, x=self.Xc, y=5))
-            if(self.Screen_Draw[0].parent == None):
-                self.add_widget(self.Screen_Draw[0])
-        return
-    
-    #################################################
-    def Delete_ScreenDraw_Widget(self):
-        max = len(self.Screen_Draw)
-        if(max > 0):
-            self.Screen_Draw.pop(0)
-        return
 
     #################################################
     def Press_ManyLines_Button(self, instance):
         self.To = time.time()
-        self.Create_ScreenDraw_Widget()
-        self.Drawing.Draw_ManyLines(pScreen = self.Screen_Draw[0], \
-                                    pXo = self.Xo, \
-                                    pXf = self.Xf, \
-                                    pYo = self.Yo, \
-                                    pYf = self.Yf, \
-                                    pR  = 1, \
-                                    pG  = 1, \
-                                    pB  = 0, \
-                                    pOffset = 0)
-        self.Drawing.Draw_ManyLines(pScreen = self.Screen_Draw[0], \
-                                    pXo = self.Xo, \
-                                    pXf = self.Xf, \
-                                    pYo = self.Yo, \
-                                    pYf = self.Yf, \
-                                    pR  = 1, \
-                                    pG  = 0, \
-                                    pB  = 0, \
-                                    pOffset = 1)
-        self.Drawing.Draw_ManyLines(pScreen = self.Screen_Draw[0], \
+        self.Clear_Drawing_Window()
+        self.Drawing.Draw_ManyLines(pScreen = self, \
                                     pXo = self.Xo, \
                                     pXf = self.Xf, \
                                     pYo = self.Yo, \
@@ -215,6 +181,7 @@ class Class_Screen1(MDFloatLayout):
                                     pG  = 1, \
                                     pB  = 1, \
                                     pOffset = 2)
+        self.Drawing.Show_Instructions(pScreen = self)
         if(self.BRectangle.parent != None):
             self.remove_widget(self.BRectangle)
         if(self.BStop.parent == None):
@@ -237,10 +204,14 @@ class Class_Screen1(MDFloatLayout):
     #################################################
     def Press_Clear1_Button(self, instance):
         self.Clear_Drawing_Window()
-        self.Create_ScreenDraw_Widget()
-        self.Drawing.Draw_Frame(pScreen = self.Screen_Draw[0], pXo=self.Xo, pXf=self.Xf, pYo=self.Yo, pYf=self.Yf)
+        self.Drawing.Draw_Frame(pScreen = self, pXo=self.Xo, pXf=self.Xf, pYo=self.Yo, pYf=self.Yf)
+        self.Drawing.Show_Instructions(pScreen = self)
         if(self.BRectangle.parent == None):
             self.add_widget(self.BRectangle)
+        if(self.TFDisplay.parent == None):
+            self.add_widget(self.TFDisplay)
+        if(self.BClear2.parent == None):
+            self.add_widget(self.BClear2)
         if(self.BStop.parent != None):
             self.remove_widget(self.BStop)
         if(self.BClear1.parent != None):
@@ -252,12 +223,18 @@ class Class_Screen1(MDFloatLayout):
         self.StrTime = ''
         self.Clear_Screen()
         self.Initialize()
+        if(self.BRectangle.parent == None):
+            self.add_widget(self.BRectangle)
+        if(self.TFDisplay.parent == None):
+            self.add_widget(self.TFDisplay)
+        if(self.BClear1.parent == None):
+            self.add_widget(self.BClear1)
+        if(self.BClear2.parent == None):
+            self.add_widget(self.BClear2)
         if(self.BRectangle.parent != None):
             self.remove_widget(self.BRectangle)
         if(self.BStop.parent != None):
             self.remove_widget(self.BStop)
-        if(self.BClear1.parent == None):
-            self.add_widget(self.BClear1)
         return
 
     #################################################
@@ -270,9 +247,7 @@ class Class_Screen1(MDFloatLayout):
 
     #################################################
     def Clear_Drawing_Window(self):
-        self.Drawing.Clear_Frame()
-        self.Drawing.Clear_Lines()
-        self.Delete_ScreenDraw_Widget()
+        self.Drawing.Clear_IG()
         if(self.Spinner.active):
             self.Spinner.active = False
         else:
