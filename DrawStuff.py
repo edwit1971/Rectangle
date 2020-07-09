@@ -52,7 +52,7 @@ class Draw_Stuff():
     #################################################
     def Show_Instructions(self, pScreen=None):
         if(pScreen is not None):
-            pScreen.canvas.clear()
+#            pScreen.canvas.clear()
             pScreen.canvas.add(self.IG_Line)
             pScreen.canvas.ask_update()
         return
